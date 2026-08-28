@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova OS</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div id="desktop">
+        <div class="desktop-icon" data-app="explorer">
+            <img src="img/explorer.png" alt="文件管理器" class="icon-img">
+            <span>文件管理器</span>
+        </div>
+        <div class="desktop-icon" data-app="notepad">
+            <img src="img/notepad.png" alt="记事本" class="icon-img">
+            <span>记事本</span>
+        </div>
+        <div class="desktop-icon" data-app="browser">
+            <img src="img/browse.png" alt="浏览器" class="icon-img">
+            <span>浏览器</span>
+        </div>
+        <div class="desktop-icon" data-app="settings">
+            <img src="img/setting.png" alt="设置" class="icon-img">
+            <span>设置</span>
+        </div>
+        <div class="desktop-icon" data-app="terminal">
+            <img src="img/shell.png" alt="终端" class="icon-img">
+            <span>终端</span>
+        </div>
+    </div>
+
+    <div id="taskbar">
+        <button id="start-btn">
+            <span class="start-icon">⊞</span>
+            <span>开始</span>
+        </button>
+        <div id="taskbar-apps"></div>
+        <div id="system-tray">
+            <span id="clock"></span>
+        </div>
+    </div>
+
+    <div id="start-menu" class="hidden">
+        <div class="start-header">
+            <span>Nova OS</span>
+        </div>
+        <div class="start-apps">
+            <div class="start-app" data-app="explorer"><img src="img/explorer.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;"> 文件管理器</div>
+            <div class="start-app" data-app="notepad">📝 记事本</div>
+            <div class="start-app" data-app="browser">🌐 浏览器</div>
+            <div class="start-app" data-app="settings">⚙️ 设置</div>
+            <div class="start-app" data-app="terminal">💻 终端</div>
+        </div>
+    </div>
+
+    <script src="js/index.js"></script>
+</body>
+</html>

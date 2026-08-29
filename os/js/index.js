@@ -64,7 +64,7 @@ const Desktop = {
                 const app = startApp.dataset.app;
                 if (app === 'shutdown') {
                     window.close();
-                    window.location.href = './shutdown/index.html';
+                    window.location.href = './shutdown';
                     return;
                 }
                 if (app === 'restart') {

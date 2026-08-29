@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         blackScreen.style.display = 'block';
         
         setTimeout(() => {
+            window.close();
             window.location.href = '../../boot';
         }, 1000);
     }, 6000);

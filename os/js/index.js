@@ -767,7 +767,6 @@ const Desktop = {
                 const rect = item.getBoundingClientRect();
                 offsetX = e.clientX - rect.left;
                 offsetY = e.clientY - rect.top;
-                e.stopPropagation();
             });
 
             document.addEventListener('mousemove', (e) => {

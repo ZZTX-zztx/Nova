@@ -100,22 +100,9 @@ const Desktop = {
             menu.id = 'context-menu';
             menu.className = 'context-menu';
             menu.innerHTML = `
-                <div class="context-item" data-action="view-large">🔲 大图标</div>
-                <div class="context-item" data-action="view-medium">🔳 中等图标</div>
-                <div class="context-item" data-action="view-small">▪️ 小图标</div>
-                <div class="context-divider"></div>
-                <div class="context-item" data-action="sort-name">🔤 按名称排序</div>
-                <div class="context-item" data-action="sort-type">📋 按类型排序</div>
-                <div class="context-divider"></div>
                 <div class="context-item" data-action="refresh">🔄 刷新</div>
-                <div class="context-item" data-action="newfolder"> 新建文件夹</div>
-                <div class="context-item" data-action="newfile"> 新建文件</div>
                 <div class="context-divider"></div>
-                <div class="context-item" data-action="calculator">🔢 计算器</div>
-                <div class="context-item" data-action="screenshot">📷 截图</div>
-                <div class="context-item" data-action="notepad">📝 记事本</div>
-                <div class="context-divider"></div>
-                <div class="context-item" data-action="settings">⚙️ 设置</div>
+                <div class="context-item" data-action="settings">️ 设置</div>
                 <div class="context-item" data-action="terminal">💻 打开终端</div>
                 <div class="context-divider"></div>
                 <div class="context-item" data-action="about">ℹ️ 关于 Nova OS</div>
@@ -170,6 +157,7 @@ const Desktop = {
                 background: rgba(100, 150, 255, 0.15);
                 pointer-events: none;
                 z-index: 500;
+                border-radius: 4px;
             `;
             document.body.appendChild(selectionBox);
 
@@ -630,6 +618,7 @@ const Desktop = {
                 background: rgba(100, 150, 255, 0.15);
                 pointer-events: none;
                 z-index: 1000;
+                border-radius: 4px;
             `;
             document.body.appendChild(selectionBox);
 

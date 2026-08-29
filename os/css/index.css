@@ -80,6 +80,7 @@ body {
     padding: 0 10px;
     z-index: 1000;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px 12px 0 0;
 }
 
 #start-btn {
@@ -92,8 +93,11 @@ body {
     align-items: center;
     gap: 5px;
     font-size: 14px;
-    border-radius: 4px;
+    border-radius: 50%;
     transition: background 0.15s;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
 }
 
 #start-btn:hover {
@@ -119,7 +123,7 @@ body {
     background: rgba(255, 255, 255, 0.05);
     color: #ffffff;
     padding: 6px 16px;
-    border-radius: 4px;
+    border-radius: 50px;
     font-size: 12px;
     cursor: pointer;
     transition: background 0.15s;
@@ -192,11 +196,13 @@ body {
     color: #ffffff;
     padding: 8px;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 50%;
     transition: background 0.15s;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 52px;
+    height: 52px;
 }
 
 .start-app:hover {
@@ -214,6 +220,7 @@ body {
 
 .start-app-icon[src] {
     object-fit: contain;
+    border-radius: 50%;
 }
 
 .window {
@@ -314,7 +321,7 @@ body {
     position: fixed;
     background: rgba(40, 40, 40, 0.95);
     backdrop-filter: blur(10px);
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
     padding: 5px 0;
     min-width: 180px;
@@ -453,7 +460,7 @@ body {
 .file-item {
     text-align: center;
     padding: 15px 10px;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     transition: background 0.2s;
 }
@@ -493,17 +500,21 @@ body {
 }
 
 .notepad-toolbar button {
-    padding: 5px 15px;
-    border: 1px solid #3d3d3d;
-    background: #3c3c3c;
+    padding: 6px 16px;
+    border: none;
+    background: #4a4a4a;
     color: #e0e0e0;
-    border-radius: 4px;
+    border-radius: 50px;
     cursor: pointer;
     font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s;
 }
 
 .notepad-toolbar button:hover {
-    background: #4a4a4a;
+    background: #5a5a5a;
 }
 
 .notepad-textarea {
@@ -547,7 +558,7 @@ body {
     border: 1px solid #3d3d3d;
     background: #3c3c3c;
     color: #e0e0e0;
-    border-radius: 4px;
+    border-radius: 50px;
     cursor: pointer;
 }
 
@@ -559,7 +570,7 @@ body {
     flex: 1;
     padding: 6px 10px;
     border: 1px solid #3d3d3d;
-    border-radius: 4px;
+    border-radius: 50px;
     outline: none;
     background: #1e1e1e;
     color: #e0e0e0;
@@ -644,11 +655,28 @@ body {
 }
 
 .setting-item select {
-    padding: 5px 10px;
-    border: 1px solid #3d3d3d;
-    background: #2d2d2d;
+    padding: 6px 14px;
+    border: none;
+    background: #3c3c3c;
     color: #e0e0e0;
-    border-radius: 4px;
+    border-radius: 50px;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e0e0e0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 30px;
+}
+
+.setting-item select:hover {
+    background-color: #4a4a4a;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e0e0e0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
 }
 
 .setting-item span {
@@ -669,7 +697,7 @@ body {
     font-size: 32px;
     padding: 15px;
     text-align: right;
-    border-radius: 8px;
+    border-radius: 12px;
     margin-bottom: 15px;
     min-height: 60px;
     display: flex;
@@ -688,12 +716,13 @@ body {
 
 .calc-btn {
     border: none;
-    border-radius: 8px;
+    border-radius: 50%;
     font-size: 20px;
     cursor: pointer;
     transition: background 0.2s;
     background: #3c3c3c;
     color: #e0e0e0;
+    aspect-ratio: 1;
 }
 
 .calc-btn:hover {

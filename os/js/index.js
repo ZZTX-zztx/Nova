@@ -35,7 +35,8 @@ const Desktop = {
         const startBtn = document.getElementById('start-btn');
         const startMenu = document.getElementById('start-menu');
 
-        startBtn.addEventListener('click', () => {
+        startBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             startMenu.classList.toggle('hidden');
         });
 

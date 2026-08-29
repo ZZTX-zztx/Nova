@@ -47,7 +47,12 @@ const Desktop = {
         });
 
         document.querySelectorAll('.desktop-icon').forEach(icon => {
-            icon.addEventListener('click', () => {
+            icon.addEventListener('click', (e) => {
+                if (this.selectionJustEnded) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
                 const app = icon.dataset.app;
                 if (app) this.openApp(app);
             });
@@ -100,6 +105,15 @@ const Desktop = {
             menu.id = 'context-menu';
             menu.className = 'context-menu';
             menu.innerHTML = `
+                <div class="context-item has-submenu" data-action="new">
+                    <span class="context-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>新建
+                    <svg class="submenu-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    <div class="submenu">
+                        <div class="context-item" data-action="newfolder"><span class="context-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg></span>文件夹</div>
+                        <div class="context-item" data-action="newfile"><span class="context-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></span>文本文件</div>
+                    </div>
+                </div>
+                <div class="context-divider"></div>
                 <div class="context-item" data-action="refresh"><span class="context-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg></span>刷新</div>
                 <div class="context-divider"></div>
                 <div class="context-item" data-action="settings"><span class="context-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span>设置</div>
@@ -121,10 +135,13 @@ const Desktop = {
             }
 
             menu.querySelectorAll('.context-item').forEach(item => {
-                item.addEventListener('click', () => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const action = item.dataset.action;
-                    this.handleContextAction(action);
-                    this.removeContextMenu();
+                    if (action && action !== 'new') {
+                        this.handleContextAction(action);
+                        this.removeContextMenu();
+                    }
                 });
             });
 
@@ -140,26 +157,29 @@ const Desktop = {
         let isSelecting = false;
         let startX, startY;
         let selectionBox = null;
+        let hasDragged = false;
 
         desktop.addEventListener('mousedown', (e) => {
             if (e.button !== 0) return;
             if (e.target.closest('.desktop-icon')) return;
+            if (e.target.closest('.context-menu')) return;
 
             isSelecting = true;
-            startX = e.clientX;
-            startY = e.clientY;
+            hasDragged = false;
+            startX = e.pageX;
+            startY = e.pageY;
 
             selectionBox = document.createElement('div');
             selectionBox.id = 'selection-box';
             selectionBox.style.cssText = `
-                position: fixed;
+                position: absolute;
                 border: 1px solid rgba(100, 150, 255, 0.6);
                 background: rgba(100, 150, 255, 0.15);
                 pointer-events: none;
                 z-index: 500;
                 border-radius: 4px;
             `;
-            document.body.appendChild(selectionBox);
+            desktop.appendChild(selectionBox);
 
             desktop.querySelectorAll('.desktop-icon').forEach(icon => {
                 icon.classList.remove('selected');
@@ -169,8 +189,13 @@ const Desktop = {
         document.addEventListener('mousemove', (e) => {
             if (!isSelecting || !selectionBox) return;
 
-            const currentX = e.clientX;
-            const currentY = e.clientY;
+            const currentX = e.pageX;
+            const currentY = e.pageY;
+
+            const dragDistance = Math.sqrt(Math.pow(currentX - startX, 2) + Math.pow(currentY - startY, 2));
+            if (dragDistance > 5) {
+                hasDragged = true;
+            }
 
             const left = Math.min(startX, currentX);
             const top = Math.min(startY, currentY);
@@ -184,17 +209,24 @@ const Desktop = {
 
             desktop.querySelectorAll('.desktop-icon').forEach(icon => {
                 const rect = icon.getBoundingClientRect();
+                const desktopRect = desktop.getBoundingClientRect();
+                
+                const iconLeft = rect.left - desktopRect.left + desktop.scrollLeft;
+                const iconTop = rect.top - desktopRect.top + desktop.scrollTop;
+                const iconRight = iconLeft + rect.width;
+                const iconBottom = iconTop + rect.height;
+
                 const isSelected = !(
-                    rect.right < left ||
-                    rect.left > left + width ||
-                    rect.bottom < top ||
-                    rect.top > top + height
+                    iconRight < left ||
+                    iconLeft > left + width ||
+                    iconBottom < top ||
+                    iconTop > top + height
                 );
                 icon.classList.toggle('selected', isSelected);
             });
         });
 
-        document.addEventListener('mouseup', () => {
+        document.addEventListener('mouseup', (e) => {
             if (!isSelecting) return;
             isSelecting = false;
 
@@ -203,15 +235,10 @@ const Desktop = {
                 selectionBox = null;
             }
 
-            const selectedIcons = desktop.querySelectorAll('.desktop-icon.selected');
-            if (selectedIcons.length === 1) {
-                const app = selectedIcons[0].dataset.app;
-                if (app) this.openApp(app);
+            if (hasDragged) {
+                this.selectionJustEnded = true;
+                setTimeout(() => { this.selectionJustEnded = false; }, 100);
             }
-
-            desktop.querySelectorAll('.desktop-icon').forEach(icon => {
-                icon.classList.remove('selected');
-            });
         });
     },
 
@@ -226,10 +253,10 @@ const Desktop = {
                 location.reload();
                 break;
             case 'newfolder':
-                this.createDesktopItem('', '新建文件夹');
+                this.createDesktopItem('img/folder.png', '新建文件夹');
                 break;
             case 'newfile':
-                this.createDesktopItem('📄', '新建文件.txt');
+                this.createDesktopItem('img/file.png', '新建文件.txt');
                 break;
             case 'calculator':
                 this.openApp('calculator');
@@ -310,10 +337,44 @@ const Desktop = {
         const desktop = document.getElementById('desktop');
         const item = document.createElement('div');
         item.className = 'desktop-icon';
+        
+        const isImage = icon.endsWith('.png') || icon.endsWith('.jpg') || icon.endsWith('.svg');
+        const iconHtml = isImage 
+            ? `<img src="${icon}" alt="${name}" class="icon-img">`
+            : `<div class="icon-img">${icon}</div>`;
+        
         item.innerHTML = `
-            <div class="icon-img">${icon}</div>
+            ${iconHtml}
             <span>${name}</span>
         `;
+        
+        const gridSize = 80;
+        const existingIcons = desktop.querySelectorAll('.desktop-icon');
+        const occupiedPositions = new Set();
+        
+        existingIcons.forEach(existingIcon => {
+            const left = parseInt(existingIcon.style.left) || 0;
+            const top = parseInt(existingIcon.style.top) || 0;
+            const col = Math.round((left - 15) / gridSize);
+            const row = Math.round((top - 15) / gridSize);
+            occupiedPositions.add(`${col},${row}`);
+        });
+        
+        let col = 0;
+        let row = 0;
+        while (occupiedPositions.has(`${col},${row}`)) {
+            row++;
+            if (row > 20) {
+                row = 0;
+                col++;
+            }
+        }
+        
+        item.style.position = 'absolute';
+        item.style.left = (col * gridSize + 15) + 'px';
+        item.style.top = (row * gridSize + 15) + 'px';
+        item.style.margin = '0';
+        
         desktop.appendChild(item);
     },
 

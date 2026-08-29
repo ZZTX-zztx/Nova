@@ -63,10 +63,12 @@ const Desktop = {
             if (startApp) {
                 const app = startApp.dataset.app;
                 if (app === 'shutdown') {
+                    window.close();
                     window.location.href = './shutdown';
                     return;
                 }
                 if (app === 'restart') {
+                    window.close();
                     window.location.href = './restart';
                     return;
                 }

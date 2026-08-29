@@ -1,0 +1,33 @@
+.shutdown-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.shutdown-content {
+    text-align: center;
+    color: #fff;
+}
+
+.loading-spinner {
+    margin-bottom: 30px;
+}
+
+.loading-spinner img {
+    width: 60px;
+    height: 60px;
+}
+
+.shutdown-text {
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.9);
+}

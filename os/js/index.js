@@ -1029,7 +1029,13 @@ const Desktop = {
                     const command = parts[0].toLowerCase();
                     const args = parts.slice(1);
 
-                    if (this.terminalCommands[command]) {
+                    if (command === 'exit') {
+                        windowEl.remove();
+                        this.windows = this.windows.filter(w => w !== windowEl);
+                        const taskbarApp = document.querySelector(`.taskbar-app[data-window-id="${windowEl.id}"]`);
+                        if (taskbarApp) taskbarApp.remove();
+                        return;
+                    } else if (this.terminalCommands[command]) {
                         const result = this.terminalCommands[command](args);
                         if (result === '__CLEAR__') {
                             output.innerHTML = '';

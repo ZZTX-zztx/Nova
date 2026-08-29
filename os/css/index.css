@@ -334,10 +334,31 @@ body {
     cursor: pointer;
     font-size: 13px;
     transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 2px 5px;
+    border-radius: 6px;
 }
 
 .context-item:hover {
     background: rgba(255, 255, 255, 0.1);
+}
+
+.context-icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.context-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
 }
 
 .context-divider {

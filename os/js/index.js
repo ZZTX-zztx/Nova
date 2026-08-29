@@ -100,12 +100,12 @@ const Desktop = {
             menu.id = 'context-menu';
             menu.className = 'context-menu';
             menu.innerHTML = `
-                <div class="context-item" data-action="refresh">🔄 刷新</div>
+                <div class="context-item" data-action="refresh"><span class="context-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg></span>刷新</div>
                 <div class="context-divider"></div>
-                <div class="context-item" data-action="settings">️ 设置</div>
-                <div class="context-item" data-action="terminal">💻 打开终端</div>
+                <div class="context-item" data-action="settings"><span class="context-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span>设置</div>
+                <div class="context-item" data-action="terminal"><span class="context-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>打开终端</div>
                 <div class="context-divider"></div>
-                <div class="context-item" data-action="about">ℹ️ 关于 Nova OS</div>
+                <div class="context-item" data-action="about"><span class="context-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>关于 Nova OS</div>
             `;
 
             menu.style.left = e.clientX + 'px';

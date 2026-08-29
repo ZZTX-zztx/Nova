@@ -163,6 +163,7 @@ const Desktop = {
             if (e.button !== 0) return;
             if (e.target.closest('.desktop-icon')) return;
             if (e.target.closest('.context-menu')) return;
+            if (e.target.closest('.window')) return;
 
             isSelecting = true;
             hasDragged = false;
@@ -753,38 +754,57 @@ const Desktop = {
         const fileItems = contentEl.querySelectorAll('.file-item');
         fileItems.forEach(item => {
             let isDragging = false;
-            let startX, startY, origLeft, origTop;
+            let startX, startY, offsetX, offsetY;
+            let hasMoved = false;
 
             item.addEventListener('mousedown', (e) => {
                 if (e.button !== 0) return;
                 isDragging = true;
+                hasMoved = false;
                 startX = e.clientX;
                 startY = e.clientY;
+                
                 const rect = item.getBoundingClientRect();
-                origLeft = rect.left;
-                origTop = rect.top;
-                item.style.position = 'absolute';
-                item.style.left = origLeft + 'px';
-                item.style.top = origTop + 'px';
-                item.style.zIndex = 10;
-                item.style.background = 'rgba(100, 150, 255, 0.3)';
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
                 e.stopPropagation();
             });
 
             document.addEventListener('mousemove', (e) => {
                 if (!isDragging) return;
-                item.style.left = (origLeft + e.clientX - startX) + 'px';
-                item.style.top = (origTop + e.clientY - startY) + 'px';
+                
+                const moveDistance = Math.sqrt(Math.pow(e.clientX - startX, 2) + Math.pow(e.clientY - startY, 2));
+                if (moveDistance > 5 && !hasMoved) {
+                    hasMoved = true;
+                    const rect = item.getBoundingClientRect();
+                    item.style.position = 'fixed';
+                    item.style.left = rect.left + 'px';
+                    item.style.top = rect.top + 'px';
+                    item.style.width = rect.width + 'px';
+                    item.style.zIndex = 1000;
+                    item.style.background = 'rgba(100, 150, 255, 0.3)';
+                    item.style.margin = '0';
+                }
+                
+                if (hasMoved) {
+                    item.style.left = (e.clientX - offsetX) + 'px';
+                    item.style.top = (e.clientY - offsetY) + 'px';
+                }
             });
 
-            document.addEventListener('mouseup', () => {
+            document.addEventListener('mouseup', (e) => {
                 if (!isDragging) return;
                 isDragging = false;
-                item.style.position = '';
-                item.style.left = '';
-                item.style.top = '';
-                item.style.zIndex = '';
-                item.style.background = '';
+                
+                if (hasMoved) {
+                    item.style.position = '';
+                    item.style.left = '';
+                    item.style.top = '';
+                    item.style.width = '';
+                    item.style.zIndex = '';
+                    item.style.background = '';
+                    item.style.margin = '';
+                }
             });
         });
     },

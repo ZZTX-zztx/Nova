@@ -56,6 +56,14 @@ const Desktop = {
             const startApp = e.target.closest('.start-app');
             if (startApp) {
                 const app = startApp.dataset.app;
+                if (app === 'shutdown') {
+                    window.location.href = './shutdown';
+                    return;
+                }
+                if (app === 'restart') {
+                    window.location.href = './restart';
+                    return;
+                }
                 if (app) this.openApp(app);
                 startMenu.classList.add('hidden');
             }

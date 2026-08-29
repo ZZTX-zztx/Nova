@@ -139,15 +139,17 @@ body {
 
 #start-menu {
     position: fixed;
-    bottom: 45px;
-    left: 0;
-    width: 300px;
-    background: rgba(30, 30, 30, 0.95);
-    backdrop-filter: blur(15px);
-    border-radius: 8px 8px 0 0;
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    background: rgba(44, 44, 44, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     z-index: 999;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #start-menu.hidden {
@@ -163,20 +165,37 @@ body {
 }
 
 .start-apps {
-    padding: 10px;
+    padding: 15px 20px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
 }
 
 .start-app {
     color: #ffffff;
-    padding: 12px 15px;
+    padding: 12px 8px;
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
-    transition: background 0.2s;
+    border-radius: 4px;
+    font-size: 12px;
+    transition: background 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
 }
 
 .start-app:hover {
     background: rgba(255, 255, 255, 0.1);
+}
+
+.start-app-icon {
+    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .window {
